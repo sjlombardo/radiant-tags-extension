@@ -27,7 +27,7 @@ class MetaTag < ActiveRecord::Base
       :limit => args[:limit] || 5,
       :joins => "JOIN taggings ON taggings.meta_tag_id = meta_tags.id",
       :conditions => args[:conditions],
-      :group => "taggings.meta_tag_id",
+      :group => "meta_tags.id, meta_tags.name, taggings.meta_tag_id",
       :order => "popularity DESC" )
   end
   
