@@ -341,8 +341,8 @@ Be aware, however, that <tt>NULL != 'Spot'</tt> returns <tt>false</tt> due to SQ
         
         # create the reflection object      
         returning(create_reflection(:has_many_polymorphs, association_id, options, self)) do |reflection|
-          if defined? Dependencies and defined? RAILS_ENV and RAILS_ENV == "development"                    
-            inject_dependencies(association_id, reflection) if Dependencies.mechanism == :load
+          if defined? ActiveSupport::Dependencies and defined? RAILS_ENV and RAILS_ENV == "development"                    
+            inject_dependencies(association_id, reflection) if ActiveSupport::Dependencies.mechanism == :load
           end
           
           # set up the other related associations      
@@ -387,7 +387,7 @@ Be aware, however, that <tt>NULL != 'Spot'</tt> returns <tt>false</tt> due to SQ
         _logger_debug "injecting dependencies"
         requirements = [self, reflection.klass].map{|klass| [klass, klass.base_class]}.flatten.uniq
         (all_classes_for(association_id, reflection) - requirements).each do |target_klass|
-          Dependencies.inject_dependency(target_klass, *requirements)        
+          ActiveSupport::Dependencies.inject_dependency(target_klass, *requirements)        
         end
       end
      
